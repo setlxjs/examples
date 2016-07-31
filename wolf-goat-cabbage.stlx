@@ -58,7 +58,7 @@ ships := { s : s in potAll | "farmer" in s && #s <= 2 };
 r1  := { [s, s - b]: s in p, b in ships
                    | s - b in p && "farmer" in b && #b <= 2 && b <= s
 };
-r2 := { [x[2], x[1]] : x in r1 };
+r2 := { [y, x] : [x, y] in r1 };
 r := r1 + r2;
 
 start := all;
@@ -76,21 +76,21 @@ mkPair := s |=> [s, all - s];
 // Print the path.
 printPath := procedure(path, all) {
     for (i in [1 .. #path]) {
-        s := mkPair(path[i]);
-        if (#s[1] == 0 || #s[2] == 0) {
-            print(s[1], 33 * " ", s[2]);
+        [s1, s2] := mkPair(path[i]);
+        if (#s1 == 0 || #s2 == 0) {
+            print(s1, 33 * " ", s2);
         } else {
-            print(s[1], 35 * " ", s[2]);
+            print(s1, 35 * " ", s2);
         }
         if (i == #path) {
             break;
         }
-        t := mkPair(path[i+1]);
-        if ("farmer" in s[1]) {
-            b := s[1] - t[1];
+        [t1, t2] := mkPair(path[i+1]);
+        if ("farmer" in s1) {
+            b := s1 - t1;
             print("                         >>>> ", b, " >>>> " );
         } else {
-            b := s[2] - t[2];
+            b := s2 - t2;
             print("                         <<<< ", b, " <<<< " );
         }
     }
